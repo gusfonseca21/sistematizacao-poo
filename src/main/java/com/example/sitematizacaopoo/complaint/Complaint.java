@@ -21,4 +21,12 @@ public class Complaint {
     private String description;
     private String code;
     private String solution;
+
+    public Complaint(ComplaintRequestDTO data) {
+        this.name = data.name();
+        this.phone = data.phone();
+        this.description = data.description();
+        this.code = data.code();
+        this.solution = data.solution();
+    }
 }
