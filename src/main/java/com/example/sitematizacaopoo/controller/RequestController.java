@@ -8,9 +8,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,11 +58,10 @@ public class RequestController {
 
     @PostMapping
     public ResponseEntity<Object> saveComplaint(@RequestBody ComplaintRequestDTO data) {
-        System.out.println(isReqValid(data));
         if (isReqValid(data)) {
             try {
-                Complaint complaintData = new Complaint(data);
-                repository.save(complaintData);
+                Complaint complaint = new Complaint(data);
+                repository.save(complaint);
                 return ResponseBody(HttpStatus.CREATED, "Reclamação registrada com sucesso", null);
             } catch (Exception err) {
                 return INTERNAL_ERROR_RESPONSE;
@@ -69,6 +70,32 @@ public class RequestController {
             return ResponseBody(HttpStatus.BAD_REQUEST, "Os campos não foram preenchidos corretamete", null);
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateComplaint(@RequestBody ComplaintRequestDTO data, @PathVariable int id) {
+        if (isReqValid(data)) {
+            try {
+                Optional<Complaint> outdatedComplaint = repository.findById(id);
+                if (outdatedComplaint.isPresent()) {
+                    Complaint updatedComplaint = outdatedComplaint.get();
+                    updatedComplaint.setName(data.name());
+                    updatedComplaint.setPhone(data.phone());
+                    updatedComplaint.setDescription(data.description());
+                    updatedComplaint.setSolution(data.solution());
+                    repository.save(updatedComplaint);
+                    return ResponseBody(HttpStatus.OK, "Atualização realizada com sucesso", updatedComplaint);
+                } else {
+                    return ResponseBody(HttpStatus.NOT_FOUND, "Essa reclamação não existe", null);
+                }
+            } catch (Exception err) {
+                return INTERNAL_ERROR_RESPONSE;
+            }
+        } else {
+            return ResponseBody(HttpStatus.BAD_REQUEST, "Os campos não foram preenchidos corretamete", null);
+        }
+    }
+
+    @DeleteMapping
 
     private static ResponseEntity<Object> ResponseBody(HttpStatus status, String message, Object data) {
         Map<String, Object> jsonResponse = new HashMap<String, Object>();

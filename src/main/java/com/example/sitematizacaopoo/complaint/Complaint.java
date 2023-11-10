@@ -15,7 +15,6 @@ public class Complaint {
     private String solution;
 
     public Complaint() {
-
     }
 
     public Complaint(ComplaintRequestDTO data) {
@@ -48,6 +47,22 @@ public class Complaint {
 
     public String getSolution() {
         return solution;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setSolution(String solution) {
+        this.solution = solution;
     }
 
     private String createCode() {
