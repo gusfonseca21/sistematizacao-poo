@@ -1,17 +1,9 @@
 package com.example.sitematizacaopoo.complaint;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Table(name = "complaint")
 @Entity(name = "complaint")
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
 public class Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +14,47 @@ public class Complaint {
     private String code;
     private String solution;
 
+    public Complaint() {
+
+    }
+
     public Complaint(ComplaintRequestDTO data) {
         this.name = data.name();
         this.phone = data.phone();
         this.description = data.description();
-        this.code = data.code();
+        this.code = createCode();
         this.solution = data.solution();
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getSolution() {
+        return solution;
+    }
+
+    private String createCode() {
+        String nowTimestamp = Long.toString(System.currentTimeMillis());
+        String nowLastThreeDigits = nowTimestamp.substring(nowTimestamp.length() - 3);
+        String phoneLastTwoDigits = phone.substring(phone.length() - 2);
+        return phoneLastTwoDigits.concat(nowLastThreeDigits);
+    }
+
 }
