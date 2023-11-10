@@ -24,7 +24,7 @@ import com.example.sitematizacaopoo.complaint.ComplaintRequestDTO;
 @RequestMapping("complaint")
 public class RequestController {
 
-    private final ResponseEntity<Object> INT_ERR_RES = ResponseBody(HttpStatus.INTERNAL_SERVER_ERROR,
+    private final ResponseEntity<Object> INTERNAL_ERROR_RESPONSE = ResponseBody(HttpStatus.INTERNAL_SERVER_ERROR,
             "Houve um erro inesperado do servidor", null);
 
     @Autowired
@@ -36,7 +36,7 @@ public class RequestController {
             List<Complaint> complaintList = repository.findAll();
             return ResponseBody(HttpStatus.OK, "Usuários retornados com sucesso", complaintList);
         } catch (Exception err) {
-            return INT_ERR_RES;
+            return INTERNAL_ERROR_RESPONSE;
         }
     }
 
@@ -50,7 +50,7 @@ public class RequestController {
                 return ResponseBody(HttpStatus.NOT_FOUND, "Essa reclamação não existe", null);
             }
         } catch (Exception err) {
-            return INT_ERR_RES;
+            return INTERNAL_ERROR_RESPONSE;
         }
     }
 
@@ -63,7 +63,7 @@ public class RequestController {
                 repository.save(complaintData);
                 return ResponseBody(HttpStatus.CREATED, "Reclamação registrada com sucesso", null);
             } catch (Exception err) {
-                return INT_ERR_RES;
+                return INTERNAL_ERROR_RESPONSE;
             }
         } else {
             return ResponseBody(HttpStatus.BAD_REQUEST, "Os campos não foram preenchidos corretamete", null);
