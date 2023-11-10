@@ -95,7 +95,20 @@ public class RequestController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteComplaint(@PathVariable int id) {
+        try {
+            Optional<Complaint> complaint = repository.findById(id);
+            if (complaint.isPresent()) {
+                repository.deleteById(id);
+                return ResponseBody(HttpStatus.OK, "Reclamação excluída com sucesso", null);
+            } else {
+                return ResponseBody(HttpStatus.NOT_FOUND, "Essa reclamação não existe", null);
+            }
+        } catch (Exception err) {
+            return INTERNAL_ERROR_RESPONSE;
+        }
+    }
 
     private static ResponseEntity<Object> ResponseBody(HttpStatus status, String message, Object data) {
         Map<String, Object> jsonResponse = new HashMap<String, Object>();
