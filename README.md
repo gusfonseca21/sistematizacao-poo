@@ -33,4 +33,3 @@ spring.datasource.password="SENHA DO BANCO DE DADOS"
 4. Conecte o banco adicionando as configurações de conexão com o banco acima, adicionando-as em `/src/main/resources/application.properties`
 5. Inicie o projeto SpringBoot em `/src/main/java/SitematizacaoPooApplication.java`
 6. Rode o front-end executando o arquivo `index.html` (`/src/view/index.html`) no navegador.
-```
