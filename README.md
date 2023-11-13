@@ -25,7 +25,7 @@ spring.datasource.password="SENHA DO BANCO DE DADOS"
 ```
 
 
-## Rodando o Servidor:
+## Rodando a Aplicação:
 
 1. Clone o repositório na sua máquina
 2. Resolva as dependências com o Maven
