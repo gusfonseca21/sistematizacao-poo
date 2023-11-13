@@ -8,12 +8,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +25,7 @@ import com.example.sitematizacaopoo.complaint.ComplaintRequestDTO;
 // import com.example.sitematizacaopoo.complaint.ComplaintResponseDTO;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("complaint")
 public class RequestController {
 
@@ -33,7 +36,7 @@ public class RequestController {
     private ComplaintRepository repository;
 
     @GetMapping
-    public ResponseEntity<Object> getAll() {
+    public ResponseEntity<Object> getAllComplaints() {
         try {
             List<Complaint> complaintList = repository.findAll();
             return ResponseBody(HttpStatus.OK, "Usuários retornados com sucesso", complaintList);
@@ -42,10 +45,10 @@ public class RequestController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getById(@PathVariable int id) {
+    @GetMapping("/{code}")
+    public ResponseEntity<Object> getComplaintByCode(@PathVariable String code) {
         try {
-            Optional<Complaint> complaint = repository.findById(id);
+            Optional<Complaint> complaint = repository.findByCode(code);
             if (complaint.isPresent()) {
                 return ResponseBody(HttpStatus.OK, "Usuário retornado com sucesso", complaint.get());
             } else {
@@ -96,7 +99,7 @@ public class RequestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteComplaint(@PathVariable int id) {
+    public ResponseEntity<Object> deleteComplaintById(@PathVariable int id) {
         try {
             Optional<Complaint> complaint = repository.findById(id);
             if (complaint.isPresent()) {
