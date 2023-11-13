@@ -18,7 +18,7 @@
 
 ## Configurações de Conexão com o Banco de Dados
 
-```properties
+```
 spring.datasource.url=jdbc:mysql://localhost:3306/sistematizacao
 spring.datasource.username="NOME DE USUARIO DO BANCO DE DADOS"
 spring.datasource.password="SENHA DO BANCO DE DADOS"
